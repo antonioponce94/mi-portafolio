@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Experimental · Webcam</title>
+  <title>Portafolio abstracto</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -11,164 +11,875 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      background: #0b0b0f; font-family: 'Inter', sans-serif; color: #eee;
-      overflow-x: hidden; line-height: 1.4;
+      background: #0b0b0f;
+      font-family: 'Inter', sans-serif;
+      color: #eee;
+      overflow-x: hidden;
+      line-height: 1.4; /* Texto más pegado */
     }
+
+    /* HEADER */
     .header {
-      position: fixed; top: 0; left: 0; width: 100%; background: #000; color: white;
-      padding: 1rem 1.5rem; z-index: 100; display: flex; justify-content: space-between;
-      align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      background: #000;
+      color: white;
+      padding: 1rem 1.5rem;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
+
     .name {
-      font-family: 'Space Grotesk', 'Inter', sans-serif; font-weight: 400;
-      font-size: 1.8rem; letter-spacing: -0.04em; margin: 0; text-decoration: none; color: white;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 1.8rem;
+      letter-spacing: -0.04em; /* Letras más pegadas */
+      margin: 0;
+      cursor: pointer;
     }
+
+    .typewriter-cursor {
+      display: inline-block;
+      width: 2px;
+      background-color: #ffaa33;
+      animation: blink 0.7s step-end infinite;
+      margin-left: 2px;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
     .header nav { display: flex; gap: 1.2rem; }
     .nav-icon {
-      color: rgba(255,255,255,0.8); font-size: 1.4rem;
-      transition: color 0.3s, transform 0.3s; text-decoration: none;
+      color: rgba(255,255,255,0.8);
+      font-size: 1.4rem;
+      transition: color 0.3s, transform 0.3s;
+      cursor: pointer;
     }
     .nav-icon:hover { color: #ffaa33; transform: scale(1.2); }
 
+    /* CONTENEDOR DE FIGURAS (FONDO) */
+    .figures-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .scroll-wrapper {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+      will-change: transform;
+    }
+
+    .figura {
+      width: 100%; height: 100%;
+      background: transparent;
+      mix-blend-mode: overlay;
+    }
+
+    /* FIGURAS GEOMÉTRICAS */
+    .cuadrado-giro {
+      width: 25vmax; height: 25vmax;
+      background: linear-gradient(45deg, #ff00aa, #aa00ff, #00ffaa, #ffaa00);
+      animation: girarColor 24s infinite linear;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      opacity: 0.7; box-shadow: 0 0 50px #ff00aa;
+    }
+
+    .linea-onda {
+      width: 60vw; height: 8px;
+      background: linear-gradient(90deg, cyan, magenta, yellow, lime);
+      animation: ondaHorizontal 18s infinite alternate ease-in-out;
+      border-radius: 4px; box-shadow: 0 0 40px magenta;
+    }
+
+    .circulo-pulso {
+      width: 30vmin; height: 30vmin; border-radius: 50%;
+      background: radial-gradient(circle, #ffaa33, #ff1493, #9400d3);
+      animation: pulso 12s infinite alternate cubic-bezier(0.42, 0, 0.58, 1);
+      mix-blend-mode: screen;
+    }
+
+    .triangulo {
+      width: 0; height: 0;
+      border-left: 15vmin solid transparent; border-right: 15vmin solid transparent;
+      border-bottom: 26vmin solid #ffcc00;
+      animation: rotarTriangulo 30s infinite linear, cambiarColor 10s infinite alternate;
+      filter: drop-shadow(0 0 20px gold);
+    }
+
+    .rect-estirable {
+      width: 100px; height: 300px;
+      background: repeating-linear-gradient(45deg, #ff00cc, #ff00cc 20px, #3300ff 20px, #3300ff 40px);
+      animation: estirar 20s infinite alternate; transform-origin: center;
+      box-shadow: 0 0 60px #ff00cc;
+    }
+
+    .mancha {
+      width: 40vmax; height: 40vmax;
+      background: radial-gradient(circle, rgba(255, 80, 80, 0.8) 0%, rgba(255, 255, 0, 0.4) 50%, transparent 80%);
+      border-radius: 50%; animation: flotar 40s infinite alternate;
+      mix-blend-mode: multiply; filter: blur(20px);
+    }
+
+    .poligono {
+      width: 400px; height: 400px;
+      background: linear-gradient(135deg, #ff6ec7, #7873f5, #3bd1d3);
+      clip-path: polygon(20% 0%, 80% 0%, 100% 30%, 80% 100%, 20% 100%, 0% 30%);
+      animation: morph 28s infinite alternate ease-in-out;
+      opacity: 0.5; mix-blend-mode: hard-light; filter: blur(3px);
+    }
+
+    /* AUTOS ABSTRACTOS */
+    .auto-base { position: relative; width: 240px; height: 120px; }
+    .carroceria {
+      position: absolute; width: 180px; height: 55px;
+      border-radius: 30px 30px 10px 10px; top: 30px; left: 30px;
+      box-shadow: 0 0 30px currentColor; animation: suspenso 3s infinite alternate ease-in-out;
+    }
+    .rueda {
+      position: absolute; width: 30px; height: 30px;
+      background: radial-gradient(circle at 30% 30%, #fff, #333);
+      border-radius: 50%; bottom: 10px; box-shadow: 0 0 15px cyan;
+      animation: rodar 6s infinite linear;
+    }
+    .ventana {
+      position: absolute; width: 70px; height: 25px;
+      background: rgba(0, 255, 255, 0.4); border-radius: 15px 15px 0 0;
+      top: 15px; left: 80px; backdrop-filter: blur(2px);
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    /* Auto Izquierda: ROJO */
+    .auto-rojo .carroceria { background: linear-gradient(145deg, #ff4d4d, #cc0000); color: #ff4d4d; }
+    /* Auto Derecha: NARANJA */
+    .auto-naranja .carroceria { background: linear-gradient(145deg, #ffaa33, #ff5500); color: #ffaa33; }
+    /* Auto Abajo: VERDE */
+    .auto-verde .carroceria { background: linear-gradient(145deg, #66ff66, #009900); color: #66ff66; }
+
+    .rueda-izq { left: 50px; } .rueda-der { left: 160px; }
+
+    /* ANIMACIONES */
+    @keyframes suspenso { 0%{transform:translateY(0)} 100%{transform:translateY(-8px)} }
+    @keyframes rodar { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+    @keyframes girarColor {
+      0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
+      50% { transform: rotate(180deg) scale(1.3); filter: hue-rotate(180deg); }
+      100% { transform: rotate(360deg) scale(1); filter: hue-rotate(360deg); }
+    }
+    @keyframes ondaHorizontal {
+      0% { transform: translateX(-20vw) scaleY(1); opacity: 0.2; width: 20%; }
+      50% { transform: translateX(20vw) scaleY(4); opacity: 1; width: 70%; }
+      100% { transform: translateX(-20vw) scaleY(1); opacity: 0.2; width: 20%; }
+    }
+    @keyframes pulso { 0% { transform: scale(0.4); opacity: 0.5; } 100% { transform: scale(2); opacity: 0.2; } }
+    @keyframes rotarTriangulo { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+    @keyframes cambiarColor {
+      0% { border-bottom-color: #ffcc00; }
+      50% { border-bottom-color: #ff44aa; }
+      100% { border-bottom-color: #00ffff; }
+    }
+    @keyframes estirar {
+      0% { transform: scaleY(0.2) rotate(5deg); border-radius: 0%; }
+      50% { transform: scaleY(1.8) rotate(45deg); border-radius: 50%; }
+      100% { transform: scaleY(0.2) rotate(85deg); border-radius: 0%; }
+    }
+    @keyframes flotar { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(15vw, 15vh) scale(2); } }
+    @keyframes morph {
+      0%   { clip-path: polygon(20% 0%, 80% 0%, 100% 30%, 80% 100%, 20% 100%, 0% 30%); }
+      25%  { clip-path: polygon(10% 10%, 90% 10%, 95% 50%, 90% 90%, 10% 90%, 5% 50%); }
+      50%  { clip-path: polygon(30% 5%, 70% 5%, 90% 50%, 70% 95%, 30% 95%, 10% 50%); }
+      75%  { clip-path: polygon(15% 15%, 85% 15%, 85% 85%, 50% 95%, 15% 85%, 5% 50%); }
+      100% { clip-path: polygon(30% 10%, 70% 10%, 90% 50%, 70% 90%, 30% 90%, 10% 50%); }
+    }
+
+    /* POSICIONES */
+    .wrapper1 { left: 5%; top: 10%; }
+    .wrapper2 { left: 60%; top: 40%; }
+    .wrapper3 { left: 80%; top: 70%; }
+    .wrapper4 { left: 20%; top: 80%; }
+    .wrapper5 { left: 45%; top: 20%; }
+    .wrapper6 { left: 10%; top: 50%; }
+    .wrapper7 { left: 70%; top: 15%; }
+    .wrapper9 { left: 15%; top: 25%; } /* Rojo */
+    .wrapper10 { left: 70%; top: 60%; } /* Naranja */
+    .wrapper11 { left: 40%; top: 75%; } /* Verde */
+
+    /* TAMAÑOS */
+    .wrapper1 .figura { width: 35vmin; height: 35vmin; }
+    .wrapper2 .figura { width: 45vmin; height: 8px; }
+    .wrapper3 .figura { width: 40vmin; height: 40vmin; }
+    .wrapper4 .figura { width: 30vmin; height: 30vmin; }
+    .wrapper5 .figura { width: 20vmin; height: 60vmin; }
+    .wrapper6 .figura { width: 60vmin; height: 60vmin; }
+    .wrapper7 .figura { width: 50vmin; height: 50vmin; }
+    .wrapper9 .figura, .wrapper10 .figura, .wrapper11 .figura { width: 240px; height: 120px; }
+
+    .wrapper4 .triangulo {
+      border-left-width: 15vmin; border-right-width: 15vmin; border-bottom-width: 26vmin;
+    }
+
+    /* PÁGINAS */
+    .page-container {
+      position: relative;
+      z-index: 20;
+      min-height: 100vh;
+      padding-top: 100px;
+      padding-bottom: 80px;
+      pointer-events: none;
+    }
+
+    .page {
+      pointer-events: auto;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      background: rgba(15, 15, 15, 0.25);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      padding: 2rem 2.5rem;
+      color: #fff;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      display: none;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-weight: 300;
+    }
+
+    .page.active { display: block; opacity: 1; transform: translateY(0); }
+
+    .page h2 {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-weight: 400; font-size: 2rem; margin-bottom: 1.5rem;
+      letter-spacing: -0.02em; text-transform: uppercase;
+      border-bottom: 1px solid rgba(255, 200, 100, 0.2); padding-bottom: 0.75rem;
+    }
+
+    .page h3 {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: 1.3rem; margin: 1.5rem 0 0.8rem;
+      color: #ffcc88; font-weight: 500; letter-spacing: -0.02em;
+    }
+
+    .page p, .page li {
+      font-size: 1.05rem; font-weight: 300;
+      line-height: 1.4; /* Texto más pegado */
+      letter-spacing: -0.01em; /* Letras más pegadas */
+      margin-bottom: 0.6rem; color: rgba(255, 255, 255, 0.9);
+    }
+
+    .page ul { list-style: none; padding-left: 1rem; }
+    .page li::before { content: "—"; margin-right: 0.75rem; color: #ffaa66; }
+
+    /* BLOG */
+    .blog-entry { margin-bottom: 2.5rem; padding-bottom: 1.8rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .blog-entry:last-child { border-bottom: none; }
+    .blog-entry h3 { margin-top: 0; color: #ffaa66; }
+    .blog-entry .fecha {
+      font-size: 0.85rem; color: rgba(255,255,255,0.5);
+      letter-spacing: 0.02em; margin-bottom: 0.5rem; display: block;
+    }
+    .blog-entry .quote {
+      font-style: italic; color: rgba(255, 255, 255, 0.75);
+      border-left: 2px solid #ffaa33; padding-left: 1rem;
+      margin: 0.9rem 0; font-size: 1.05rem; line-height: 1.4;
+    }
+    .blog-entry .author {
+      display: block; font-style: normal; font-size: 0.85rem;
+      color: rgba(255,170,102,0.85); letter-spacing: 0.02em; margin-top: 0.35rem;
+    }
+
+    /* AUDIOS */
+    .audio-capsules { display: grid; gap: 1.5rem; margin-top: 1.5rem; }
+    .audio-card {
+      background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.12);
+      padding: 1.25rem 1.5rem; border-radius: 2px; transition: border-color 0.4s, box-shadow 0.4s;
+    }
+    .audio-card.playing { border-color: #ffaa33; box-shadow: 0 0 24px rgba(255,170,51,0.25); }
+    .audio-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.4rem; }
+    .play-btn {
+      width: 44px; height: 44px; border-radius: 50%; border: 1px solid #ffaa33;
+      background: transparent; color: #ffaa33; font-size: 1rem; cursor: pointer;
+      transition: all 0.3s; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-family: inherit;
+    }
+    .play-btn:hover { background: rgba(255,170,51,0.15); }
+    .audio-card.playing .play-btn { background: #ffaa33; color: #000; }
+    .audio-header h3 { margin: 0; color: #fff; font-size: 1.15rem; }
+    .audio-card p { margin: 0.4rem 0 0; font-size: 0.95rem; color: rgba(255,255,255,0.75); line-height: 1.3; }
+    .visualizer { display: flex; gap: 4px; align-items: flex-end; height: 28px; margin-top: 0.9rem; }
+    .visualizer span { width: 4px; height: 4px; background: #ffaa33; opacity: 0.25; transition: all 0.2s; }
+    .audio-card.playing .visualizer span { animation: barPulse 0.7s infinite alternate ease-in-out; opacity: 1; }
+    .audio-card.playing .visualizer span:nth-child(2) { animation-delay: 0.12s; animation-duration: 0.5s; }
+    .audio-card.playing .visualizer span:nth-child(3) { animation-delay: 0.24s; animation-duration: 0.8s; }
+    .audio-card.playing .visualizer span:nth-child(4) { animation-delay: 0.18s; animation-duration: 0.6s; }
+    .audio-card.playing .visualizer span:nth-child(5) { animation-delay: 0.30s; animation-duration: 0.75s; }
+    .audio-card.playing .visualizer span:nth-child(6) { animation-delay: 0.08s; animation-duration: 0.65s; }
+    .audio-card.playing .visualizer span:nth-child(7) { animation-delay: 0.22s; animation-duration: 0.55s; }
+    @keyframes barPulse { 0% { height: 4px; opacity: 0.4; } 100% { height: 28px; opacity: 1; } }
+    .audio-hint { font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-top: 1.5rem; font-style: italic; }
+
+    .media-links {
+      margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.2);
+      display: flex; gap: 1.5rem; flex-wrap: wrap;
+    }
+    .media-links a { color: #ffaa66; text-decoration: none; border-bottom: 1px dotted #ffaa66; transition: 0.3s; }
+    .media-links a:hover { color: #fff; border-bottom-color: #fff; }
+
     #p5-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-    #p5-camera-container { position: relative; z-index: 20; max-width: 800px; margin: 100px auto 40px; padding: 0 1rem; text-align: center; }
 
-    .content-box {
-      background: rgba(15, 15, 15, 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      padding: 2rem; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px;
-    }
-    .content-box h2 {
-      font-family: 'Space Grotesk', sans-serif; font-weight: 400; font-size: 2rem;
-      margin-bottom: 1rem; letter-spacing: -0.02em; text-transform: uppercase;
-    }
-    .content-box p { font-size: 1.05rem; font-weight: 300; margin-bottom: 1.5rem; line-height: 1.4; letter-spacing: -0.01em; }
-
-    #camera-btn {
-      background: transparent; color: #ffaa33; border: 1px solid #ffaa33;
-      padding: 0.8rem 2rem; font-size: 1rem; cursor: pointer; transition: all 0.3s;
-      margin-bottom: 1.5rem; font-family: inherit;
-    }
-    #camera-btn:hover { background: #ffaa33; color: #000; }
-
-    #p5-camera { display: flex; justify-content: center; }
-    #p5-camera canvas { max-width: 100%; height: auto !important; border: 1px solid rgba(255,255,255,0.2); }
-
+    /* FOOTER MINIMALISTA (Sin iconos de video) */
     .footer {
-      position: fixed; bottom: 0; width: 100%; z-index: 100; background: #000; color: #fff;
-      padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: center;
-      font-weight: 300; border-top: 1px solid rgba(255,255,255,0.2); text-align: center;
+      position: relative; z-index: 100; background: #000; color: #fff;
+      padding: 1.5rem 1rem; display: flex; align-items: center; justify-content: center;
+      font-weight: 300; border-top: 1px solid rgba(255,255,255,0.2);
+      text-align: center;
     }
-    .footer p { font-size: 0.8rem; letter-spacing: 0.05em; }
+    .footer p {
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      margin: 0;
+    }
 
+    /* =========================================
+       OPTIMIZACIÓN EXTREMA PARA CELULARES 
+       ========================================= */
     @media (max-width: 768px) {
-      .header { padding: 0.8rem 1rem; }
-      .name { font-size: 1.3rem; }
-      .nav-icon { font-size: 1.15rem; }
-      .header nav { gap: 0.8rem; }
-      #p5-camera-container { margin-top: 80px; }
-      .content-box { padding: 1.5rem 1rem; }
-      .content-box h2 { font-size: 1.5rem; }
+      .header { padding: 0.8rem 1rem; flex-direction: column; gap: 0.8rem; }
+      .name { font-size: 1.5rem; }
+      .header nav { gap: 1.2rem; }
+      .nav-icon { font-size: 1.3rem; }
+      
+      /* Autos más pequeños en celular */
+      .wrapper9 .figura, .wrapper10 .figura, .wrapper11 .figura { width: 160px; height: 80px; }
+      .auto-base { transform: scale(0.65); }
+      .carroceria { top: 20px; left: 20px; }
+      
+      /* Figuras geométricas ajustadas */
+      .wrapper1 .figura { width: 25vmin; height: 25vmin; }
+      .wrapper3 .figura { width: 30vmin; height: 30vmin; }
+      .wrapper6 .figura { width: 40vmin; height: 40vmin; }
+      
+      /* Páginas con menos margen */
+      .page { max-width: 92%; padding: 1.5rem 1.2rem; margin: 1rem auto; }
+      .page h2 { font-size: 1.6rem; }
+      .page h3 { font-size: 1.2rem; }
+      .page p, .page li { font-size: 1rem; }
+      
+      /* Blog y audios ajustados */
+      .blog-entry { margin-bottom: 1.5rem; padding-bottom: 1rem; }
+      .audio-card { padding: 1rem; }
+      .audio-header h3 { font-size: 1rem; }
+      .play-btn { width: 36px; height: 36px; font-size: 0.9rem; }
+      
+      .footer { padding: 1rem; }
     }
   </style>
 </head>
 <body>
   <div id="p5-background"></div>
 
+  <!-- HEADER -->
   <header class="header">
-    <a href="index.html" class="name">Antonio Ponce</a>
+    <h1 class="name" id="name-typewriter"></h1>
     <nav>
-      <a href="index.html" class="nav-icon" title="Inicio"><i class="fas fa-home"></i></a>
+      <i class="fas fa-home nav-icon" onclick="navegar('inicio')" title="Inicio"></i>
+      <i class="fas fa-user nav-icon" onclick="navegar('biografia')" title="Biografía"></i>
+      <i class="fas fa-file-alt nav-icon" onclick="navegar('curriculum')" title="Currículum"></i>
+      <i class="fas fa-feather-alt nav-icon" onclick="navegar('blog')" title="Blog"></i>
+      <i class="fas fa-headphones nav-icon" onclick="navegar('audio')" title="Audios experimentales"></i>
     </nav>
   </header>
 
-  <div id="p5-camera-container">
-    <div class="content-box">
-      <h2>Video Experimental</h2>
-      <p>Activa tu cámara para generar un retrato en tiempo real con un filtro de píxeles y estática. Esta pieza juega con el error (glitch) y la identidad digital.</p>
-      <button id="camera-btn">Activar Cámara</button>
-      <div id="p5-camera"></div>
+  <!-- FIGURAS Y AUTOS -->
+  <div class="figures-container">
+    <div class="scroll-wrapper wrapper1"><div class="figura cuadrado-giro"></div></div>
+    <div class="scroll-wrapper wrapper2"><div class="figura linea-onda"></div></div>
+    <div class="scroll-wrapper wrapper3"><div class="figura circulo-pulso"></div></div>
+    <div class="scroll-wrapper wrapper4"><div class="figura triangulo"></div></div>
+    <div class="scroll-wrapper wrapper5"><div class="figura rect-estirable"></div></div>
+    <div class="scroll-wrapper wrapper6"><div class="figura mancha"></div></div>
+    <div class="scroll-wrapper wrapper7"><div class="figura poligono"></div></div>
+    
+    <!-- Autos (Rojo, Naranja, Verde) -->
+    <div class="scroll-wrapper wrapper9"><div class="figura auto-base auto-rojo"><div class="carroceria"></div><div class="rueda rueda-izq"></div><div class="rueda rueda-der"></div><div class="ventana"></div></div></div>
+    <div class="scroll-wrapper wrapper10"><div class="figura auto-base auto-naranja"><div class="carroceria"></div><div class="rueda rueda-izq"></div><div class="rueda rueda-der"></div><div class="ventana"></div></div></div>
+    <div class="scroll-wrapper wrapper11"><div class="figura auto-base auto-verde"><div class="carroceria"></div><div class="rueda rueda-izq"></div><div class="rueda rueda-der"></div><div class="ventana"></div></div></div>
+  </div>
+
+  <!-- PÁGINAS -->
+  <div class="page-container" id="pageContainer">
+    <!-- BIOGRAFIA -->
+    <div class="page" id="page-biografia">
+      <h2>Biografía</h2>
+      <p>Artista visual y programador creativo, mi trabajo explora la intersección entre la animación experimental y el arte generativo. Influenciado por la abstracción cinética de Norman McLaren y el modernismo mexicano de Fermín Revueltas, busco crear experiencias visuales donde la geometría cobra vida.</p>
+      <p>Esta página es un homenaje a ambos maestros, combinando movimiento, color y formas elementales en un lienzo digital en constante cambio.</p>
+    </div>
+
+    <!-- CURRICULUM -->
+    <div class="page" id="page-curriculum">
+      <h2>Currículum</h2>
+      <h3>Experiencia Profesional</h3>
+      <ul>
+        <li>2019 Asistencia a Allan Villavicencio, Karen Huber.</li>
+        <li>2020-2022 Fundación y gestión de la galería Avant.dev</li>
+        <li>2023 Manejo de obras de arte, galería Daniela Elbahara.</li>
+        <li>2023 Seguimiento de contenido y medios, Rojkind Arquitectos</li>
+        <li>2023 Registro de obras de arte y creación de contenido, galería JO-HS.</li>
+      </ul>
+      <h3>Exposiciones</h3>
+      <ul>
+        <li>2014 Exposición colectiva de fotografía, UAEM (Universidad Autónoma del Estado de México).</li>
+        <li>2019 Arte digital interactivo, MUTEK.</li>
+        <li>2019 Filmación y documentación de SSW19, BARRAGÁN.</li>
+        <li>2020 Exposición colectiva, Tersermundo.</li>
+        <li>2021 Filmación y postproducción de contenido, Carla Fernández.</li>
+        <li>2021 Arte digital interactivo, Currents.fm.</li>
+        <li>2022 Exposición colectiva, Bexpo.</li>
+        <li>2023 Exposición colectiva, CCA Andratx, España</li>
+        <li>2023 Taller de Collage en Casa Basalta</li>
+        <li>2023 Exposición colectiva, Marine St Gallery, EE.UU</li>
+        <li>2023 Filmación y apoyo en producción para Wendy Cabrera Rubio, N.A.S.A.L.</li>
+        <li>2024 Gestión de la subasta Artistxs por Palestina</li>
+        <li>2024 Exposición colectiva, Gag.co x Unknown Studio LA</li>
+        <li>2024 Exposición colectiva, videoinstalación en colaboración con Ángela Leyva.</li>
+        <li>2024 Exposición en el metaverso, Art Loop Critique</li>
+        <li>2024 Proyecto colectivo, Gatewayai en Mutek & New Art City</li>
+        <li>2024 Muestra de videoarte colectiva, UAM</li>
+      </ul>
+    </div>
+
+    <!-- BLOG -->
+    <div class="page" id="page-blog">
+      <h2>Blog</h2>
+      <p style="margin-bottom: 2rem;">Notas, ensayos y citas sobre arte, imagen en movimiento, geometría y filosofía del error. Un cuaderno de lecturas.</p>
+
+      <article class="blog-entry">
+        <span class="fecha">2026 · Nota 01</span>
+        <h3>Sobre la línea que respira</h3>
+        <p>La animación experimental nos enseñó que una línea puede tener pulso. Cuando McLaren dibujaba directamente sobre la película, no estaba dibujando formas: estaba dibujando tiempo. Cada trazo era un segundo, cada color un latido.</p>
+        <p class="quote">"El movimiento no está en la imagen, está en el ojo que la recorre."</p>
+        <p>Trabajar con geometría animada es aceptar que las formas nunca están quietas del todo. Un círculo es también su potencial de convertirse en otra cosa.</p>
+      </article>
+
+      <article class="blog-entry">
+        <span class="fecha">2026 · Nota 02</span>
+        <h3>Color como argumento</h3>
+        <p>Revueltas entendió que el color no decora: argumenta. Una franja roja al lado de un azul no es un contraste, es una discusión. En la web, donde todo tiende a la transparencia y al gris, apostar por el color es una decisión política.</p>
+        <p>Por eso este portafolio no tiene fondo blanco. Porque el negro permite que el color respire.</p>
+      </article>
+
+      <article class="blog-entry">
+        <span class="fecha">2026 · Nota 03</span>
+        <h3>El error como método</h3>
+        <p>Toda animación experimental contiene errores deliberados. Un píxel fuera de lugar, un color que no corresponde, una forma que se deforma más de la cuenta. Esos errores son la firma del autor.</p>
+        <p class="quote">"La perfección es el enemigo del movimiento."</p>
+        <p>Por eso el código de este sitio está vivo: se mueve con el scroll, responde al mouse, se deforma. Porque un portafolio que no respira es solo un PDF con ínfulas.</p>
+      </article>
+
+      <article class="blog-entry">
+        <span class="fecha">2026 · Nota 04 · Nietzsche</span>
+        <h3>El error necesario</h3>
+        <p class="quote">"Sin música, la vida sería un error."<span class="author">— Friedrich Nietzsche, <em>Crepúsculo de los ídolos</em> (1889)</span></p>
+        <p>Nietzsche no hablaba de la música como decoración, sino como esa forma del arte que piensa el tiempo sin detenerlo. Los audios de este sitio no son canciones: son errores organizados.</p>
+      </article>
+
+      <article class="blog-entry">
+        <span class="fecha">2026 · Nota 05 · Deleuze</span>
+        <h3>Rizoma y red</h3>
+        <p class="quote">"El rizoma no comienza ni concluye, siempre está en el medio, entre las cosas, interser."<span class="author">— Gilles Deleuze & Félix Guattari, <em>Mil mesetas</em> (1980)</span></p>
+        <p>Un portafolio no debería ser un árbol con una raíz y ramas jerárquicas. Debería ser un rizoma: cada página conecta con cualquier otra sin un orden obligatorio. Este sitio se navega por iconos, no por un menú lineal.</p>
+      </article>
+
+      <article class="blog-entry">
+        <span class="fecha">2026 · Nota 06 · Deleuze</span>
+        <h3>Fabricar conceptos</h3>
+        <p class="quote">"La filosofía no es contemplación, ni reflexión, ni comunicación. Es la actividad que crea conceptos."<span class="author">— Gilles Deleuze & Félix Guattari, <em>¿Qué es la filosofía?</em> (1991)</span></p>
+        <p>Podríamos decir lo mismo del código: no es una herramienta, ni una técnica, ni un medio. Es una actividad que crea formas. Un `keyframe` no es una orden, es la invención de un movimiento que antes no existía.</p>
+      </article>
+
+      <article class="blog-entry">
+        <span class="fecha">2026 · Nota 07 · Burroughs</span>
+        <h3>El lenguaje es un virus</h3>
+        <p class="quote">"El lenguaje es un virus del espacio exterior."<span class="author">— William S. Burroughs, <em>The Ticket That Exploded</em> (1962)</span></p>
+        <p>Burroughs cortaba y recombinaba sus propios textos para liberar al lenguaje de su sintaxis de control. La técnica del <em>cut-up</em> no era un experimento formal: era un acto político. Cortar el discurso dominante para ver qué había debajo.</p>
+      </article>
+    </div>
+
+    <!-- AUDIOS -->
+    <div class="page" id="page-audio">
+      <h2>Audios experimentales</h2>
+      <p>Cinco cápsulas generativas sintetizadas en tiempo real con Web Audio API. Sin archivos: cada sonido se calcula mientras suena. Pulsa <strong>play</strong> para activar cada una.</p>
+
+      <div class="audio-capsules">
+        <div class="audio-card" data-capsule="1">
+          <div class="audio-header">
+            <button class="play-btn" aria-label="Reproducir Arpegio Glitch"><i class="fas fa-play play-icon"></i></button>
+            <h3>Arpegio Glitch</h3>
+          </div>
+          <p>IDM generativo · oscilador cuadrado, filtro resonante con barridos aleatorios y delay con retroalimentación.</p>
+          <div class="visualizer"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+
+        <div class="audio-card" data-capsule="2">
+          <div class="audio-header">
+            <button class="play-btn" aria-label="Reproducir Deriva"><i class="fas fa-play play-icon"></i></button>
+            <h3>Deriva</h3>
+          </div>
+          <p>Drone ambiental · cinco osciladores desafinados, LFO lento sobre el filtro y delay largo tipo cinta.</p>
+          <div class="visualizer"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+
+        <div class="audio-card" data-capsule="3">
+          <div class="audio-header">
+            <button class="play-btn" aria-label="Reproducir Pulso"><i class="fas fa-play play-icon"></i></button>
+            <h3>Pulso</h3>
+          </div>
+          <p>Ritmo generativo · kick con envolvente de tono, hi-hat de ruido filtrado y blips melódicos en patrón de 16 pasos.</p>
+          <div class="visualizer"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+
+        <div class="audio-card" data-capsule="4">
+          <div class="audio-header">
+            <button class="play-btn" aria-label="Reproducir Fractura"><i class="fas fa-play play-icon"></i></button>
+            <h3>Fractura</h3>
+          </div>
+          <p>Glitch metálico · síntesis FM con envolventes cortísimas, pulsos subgraves irregulares y eco corto de cinta.</p>
+          <div class="visualizer"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+
+        <div class="audio-card" data-capsule="5">
+          <div class="audio-header">
+            <button class="play-btn" aria-label="Reproducir Eco"><i class="fas fa-play play-icon"></i></button>
+            <h3>Eco</h3>
+          </div>
+          <p>Cinta desgastada · acorde suspendido, delay largo con retroalimentación alta y saltos de afinación aleatorios.</p>
+          <div class="visualizer"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+      <p class="audio-hint">↳ Puedes activar varias a la vez; se mezclan en tiempo real.</p>
     </div>
   </div>
 
+  <!-- FOOTER MINIMALISTA -->
   <footer class="footer">
     <p>© 2026 · Portafolio experimental</p>
   </footer>
 
   <script>
+    // TYPEWRITER
+    const nameElement = document.getElementById('name-typewriter');
+    const fullName = "Antonio Ponce";
+    let i = 0;
+    function typeWriter() {
+      if (i < fullName.length) {
+        nameElement.innerHTML += fullName.charAt(i);
+        i++;
+        setTimeout(typeWriter, 100);
+      } else {
+        const cursorSpan = document.createElement('span');
+        cursorSpan.classList.add('typewriter-cursor');
+        cursorSpan.innerHTML = '|';
+        nameElement.appendChild(cursorSpan);
+      }
+    }
+    typeWriter();
+
+    // NAVEGACIÓN Y SCROLL
+    (function() {
+      const wrappers = document.querySelectorAll('.scroll-wrapper');
+      const totalWrappers = wrappers.length;
+      const factors = [];
+      for (let i = 0; i < totalWrappers; i++) {
+        factors.push({
+          rotX: 0.05 + (i * 0.01), rotY: 0.03 + (i * 0.02),
+          rotZ: 0.1 + (i * 0.03), transX: 0.02 + (i * 0.005), transY: 0.04 + (i * 0.007),
+        });
+      }
+
+      function updateScrollEffect() {
+        const scrollY = window.scrollY;
+        wrappers.forEach((wrapper, index) => {
+          const f = factors[index];
+          const rotX = scrollY * f.rotX * 0.1;
+          const rotY = scrollY * f.rotY * 0.1;
+          const rotZ = scrollY * f.rotZ * 0.1;
+          const transX = scrollY * f.transX;
+          const transY = scrollY * f.transY;
+          wrapper.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) rotateZ(${rotZ}deg) translate(${transX}px, ${transY}px)`;
+        });
+      }
+
+      window.addEventListener('scroll', updateScrollEffect);
+      updateScrollEffect();
+
+      const pages = {
+        biografia: document.getElementById('page-biografia'),
+        curriculum: document.getElementById('page-curriculum'),
+        blog: document.getElementById('page-blog'),
+        audio: document.getElementById('page-audio')
+      };
+
+      function ocultarTodas() { Object.values(pages).forEach(p => p.classList.remove('active')); }
+      ocultarTodas();
+
+      window.navegar = function(pageId) {
+        ocultarTodas();
+        if (pages[pageId]) { pages[pageId].classList.add('active'); }
+        history.pushState({ page: pageId }, '', `#${pageId}`);
+      };
+
+      function handleHash() {
+        const hash = window.location.hash.substring(1);
+        if (pages[hash]) { navegar(hash); } else { navegar('inicio'); }
+      }
+
+      window.addEventListener('popstate', handleHash);
+      handleHash();
+    })();
+
+    // FONDO p5.js OPTIMIZADO PARA TÁCTIL
     let bgSketch = function(p) {
+      let circlePositionX, circlePositionY;
+      let circleSpeedX = 2.2, circleSpeedY = 2.8;
+      let circleRadius = 40, circleHue = 0;
+
       p.setup = function() {
         let canvas = p.createCanvas(p.windowWidth, p.windowHeight);
         canvas.parent('p5-background');
         canvas.style('pointer-events', 'none');
-        p.background(0);
+        p.ellipseMode(p.RADIUS);
+        p.colorMode(p.HSB);
+        circlePositionX = p.width / 2;
+        circlePositionY = p.height / 2;
+        p.background(0, 0, 0, 0);
       };
+
       p.draw = function() {
-        p.background(0, 0, 0, 10);
-        p.strokeWeight(1);
-        for (let i = 0; i < 150; i++) {
-          let bright = p.random(100, 255);
-          p.stroke(bright, bright, bright, 60);
-          p.point(p.random(p.width), p.random(p.height));
+        p.background(0, 0, 0, 3);
+        p.noFill();
+        p.stroke(circleHue, 255, 255);
+        p.strokeWeight(3);
+        p.drawingContext.shadowBlur = 60;
+        p.drawingContext.shadowColor = `hsla(${circleHue}, 100%, 70%, 0.9)`;
+        p.circle(circlePositionX, circlePositionY, circleRadius);
+        p.drawingContext.shadowBlur = 0;
+
+        // Funciona con mouse y con pantalla táctil
+        if (p.mouseIsPressed || p.touches.length > 0) {
+          circlePositionX += circleSpeedX;
+          circlePositionY += circleSpeedY;
+          circleHue = (circleHue + 3) % 360;
+        }
+
+        if (circlePositionX < circleRadius || circlePositionX > p.width - circleRadius) {
+          circleSpeedX *= -1;
+        }
+        if (circlePositionY < circleRadius || circlePositionY > p.height - circleRadius) {
+          circleSpeedY *= -1;
         }
       };
-      p.windowResized = function() { p.resizeCanvas(p.windowWidth, p.windowHeight); };
+
+      p.windowResized = function() {
+        p.resizeCanvas(p.windowWidth, p.windowHeight);
+        circlePositionX = p.constrain(circlePositionX, circleRadius, p.width - circleRadius);
+        circlePositionY = p.constrain(circlePositionY, circleRadius, p.height - circleRadius);
+      };
     };
     new p5(bgSketch);
 
-    let cameraSketch = null;
-    const btn = document.getElementById('camera-btn');
-    const container = document.getElementById('p5-camera');
-
-    btn.addEventListener('click', async () => {
-      if (cameraSketch) return;
-      btn.style.display = 'none';
-
-      let div = document.createElement('div');
-      div.id = 'canvas-wrapper';
-      container.appendChild(div);
-
-      try {
-        cameraSketch = new p5(function(p) {
-          let video;
-          p.setup = function() {
-            let canvas = p.createCanvas(500, 375);
-            canvas.parent('canvas-wrapper');
-            video = p.createCapture(p.VIDEO);
-            video.size(500, 375);
-            video.hide();
-          };
-
-          p.draw = function() {
-            p.image(video, 0, 0, p.width, p.height);
-            
-            p.loadPixels();
-            for (let y = 0; y < p.height; y += 4) {
-              for (let x = 0; x < p.width; x += 4) {
-                let index = (x + y * p.width) * 4;
-                if (p.random() < 0.1) {
-                  p.pixels[index] = p.pixels[index + 4] || p.pixels[index];
-                  p.pixels[index + 1] = p.pixels[index + 1000] || p.pixels[index + 1];
-                  p.pixels[index + 2] = p.pixels[index - 4] || p.pixels[index + 2];
-                }
-              }
-            }
-            p.updatePixels();
-
-            if (p.mouseX > 0 && p.mouseX < p.width && p.mouseY > 0 && p.mouseY < p.height) {
-              p.stroke(255, 255, 0, 150);
-              p.strokeWeight(2);
-              p.line(p.mouseX, 0, p.mouseX, p.height);
-              p.line(0, p.mouseY, p.width, p.mouseY);
-            }
-          };
-        });
-      } catch (err) {
-        alert('No se pudo acceder a la cámara. Asegúrate de dar los permisos necesarios.');
-        btn.style.display = 'block';
-        btn.innerText = 'Reintentar';
+    // AUDIO EXPERIMENTAL
+    const AudioCapsules = {
+      context: null, playing: {},
+      getContext() {
+        if (!this.context) { this.context = new (window.AudioContext || window.webkitAudioContext)(); }
+        if (this.context.state === 'suspended') { this.context.resume(); }
+        return this.context;
+      },
+      stop(id) {
+        if (this.playing[id]) { try { this.playing[id].stop(); } catch(e) {} delete this.playing[id]; }
+      },
+      toggle(id, card) {
+        const btn = card.querySelector('.play-btn');
+        const icon = card.querySelector('.play-icon');
+        if (this.playing[id]) {
+          this.stop(id); card.classList.remove('playing');
+          icon.className = 'fas fa-play play-icon';
+        } else {
+          const ctx = this.getContext();
+          const factories = { '1': capsuleArp, '2': capsuleDrone, '3': capsulePulse, '4': capsuleFractura, '5': capsuleEco };
+          this.playing[id] = factories[id](ctx);
+          card.classList.add('playing');
+          icon.className = 'fas fa-stop play-icon';
+        }
       }
+    };
+
+    function capsuleArp(ctx) {
+      const master = ctx.createGain(); master.gain.value = 0.22; master.connect(ctx.destination);
+      const delay = ctx.createDelay(1.0); delay.delayTime.value = 0.28;
+      const feedback = ctx.createGain(); feedback.gain.value = 0.42;
+      delay.connect(feedback); feedback.connect(delay); delay.connect(master);
+      const filter = ctx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 900; filter.Q.value = 7;
+      filter.connect(master); filter.connect(delay);
+      const notes = [220, 261.63, 293.66, 329.63, 392, 440, 523.25, 587.33];
+      let stopped = false;
+      function playNote() {
+        if (stopped) return;
+        const osc = ctx.createOscillator(); osc.type = 'square';
+        const note = notes[Math.floor(Math.random() * notes.length)];
+        osc.frequency.setValueAtTime(note, ctx.currentTime);
+        if (Math.random() < 0.18) { osc.frequency.exponentialRampToValueAtTime(note * (Math.random() < 0.5 ? 2.5 : 0.5), ctx.currentTime + 0.06); }
+        const env = ctx.createGain(); env.gain.setValueAtTime(0, ctx.currentTime);
+        env.gain.linearRampToValueAtTime(0.35, ctx.currentTime + 0.008);
+        env.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
+        osc.connect(env); env.connect(filter); osc.start(); osc.stop(ctx.currentTime + 0.25);
+        filter.frequency.setValueAtTime(400 + Math.random() * 2200, ctx.currentTime);
+      }
+      const interval = setInterval(playNote, 175); playNote();
+      return { stop() { stopped = true; clearInterval(interval); master.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.15); setTimeout(() => { try { master.disconnect(); } catch(e){} }, 250); } };
+    }
+
+    function capsuleDrone(ctx) {
+      const master = ctx.createGain(); master.gain.value = 0.11; master.connect(ctx.destination);
+      const delay = ctx.createDelay(2.0); delay.delayTime.value = 0.72;
+      const feedback = ctx.createGain(); feedback.gain.value = 0.55;
+      delay.connect(feedback); feedback.connect(delay); delay.connect(master);
+      const filter = ctx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 650; filter.Q.value = 2.5;
+      filter.connect(master); filter.connect(delay);
+      const oscs = [];
+      [110, 164.81, 220, 277.18, 329.63].forEach((f) => {
+        const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f; osc.detune.value = Math.random() * 24 - 12;
+        const g = ctx.createGain(); g.gain.value = 0.13; osc.connect(g); g.connect(filter); osc.start(); oscs.push(osc);
+      });
+      const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 0.08;
+      const lfoGain = ctx.createGain(); lfoGain.gain.value = 320;
+      lfo.connect(lfoGain); lfoGain.connect(filter.frequency); lfo.start();
+      return { stop() { master.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2); setTimeout(() => { oscs.forEach(o => { try { o.stop(); } catch(e){} }); try { lfo.stop(); } catch(e) {} try { master.disconnect(); } catch(e) {} }, 1300); } };
+    }
+
+    function capsulePulse(ctx) {
+      const master = ctx.createGain(); master.gain.value = 0.28; master.connect(ctx.destination);
+      const bufferSize = Math.floor(ctx.sampleRate * 0.05);
+      const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const nd = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) nd[i] = Math.random() * 2 - 1;
+      function kick(time) {
+        const osc = ctx.createOscillator(); osc.frequency.setValueAtTime(130, time); osc.frequency.exponentialRampToValueAtTime(38, time + 0.15);
+        const g = ctx.createGain(); g.gain.setValueAtTime(0.85, time); g.gain.exponentialRampToValueAtTime(0.001, time + 0.32);
+        osc.connect(g); g.connect(master); osc.start(time); osc.stop(time + 0.35);
+      }
+      function hat(time) {
+        const src = ctx.createBufferSource(); src.buffer = noiseBuffer;
+        const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 7500;
+        const g = ctx.createGain(); g.gain.setValueAtTime(0.14, time); g.gain.exponentialRampToValueAtTime(0.001, time + 0.045);
+        src.connect(hp); hp.connect(g); g.connect(master); src.start(time); src.stop(time + 0.06);
+      }
+      function blip(time, freq) {
+        const osc = ctx.createOscillator(); osc.type = 'triangle'; osc.frequency.value = freq;
+        const g = ctx.createGain(); g.gain.setValueAtTime(0.28, time); g.gain.exponentialRampToValueAtTime(0.001, time + 0.16);
+        osc.connect(g); g.connect(master); osc.start(time); osc.stop(time + 0.2);
+      }
+      const scale = [220, 261.63, 329.63, 392, 523.25, 659.25];
+      let step = 0, stopped = false;
+      const stepTime = 60 / 128 / 4;
+      function tick() {
+        if (stopped) return;
+        const time = ctx.currentTime;
+        if (step % 8 === 0) kick(time);
+        if (step % 4 === 2) hat(time);
+        if (step % 4 === 0 && Math.random() < 0.55) { blip(time, scale[Math.floor(Math.random() * scale.length)]); }
+        step++;
+      }
+      const interval = setInterval(tick, stepTime * 1000); tick();
+      return { stop() { stopped = true; clearInterval(interval); master.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.15); setTimeout(() => { try { master.disconnect(); } catch(e){} }, 250); } };
+    }
+
+    function capsuleFractura(ctx) {
+      const master = ctx.createGain(); master.gain.value = 0.18; master.connect(ctx.destination);
+      const delay = ctx.createDelay(0.8); delay.delayTime.value = 0.17;
+      const fb = ctx.createGain(); fb.gain.value = 0.55; delay.connect(fb); fb.connect(delay); delay.connect(master);
+      function fmHit(time, baseFreq) {
+        const carrier = ctx.createOscillator(); carrier.type = 'sine'; carrier.frequency.value = baseFreq;
+        const modulator = ctx.createOscillator(); modulator.type = 'sine'; modulator.frequency.value = baseFreq * (2 + Math.random() * 4);
+        const modGain = ctx.createGain(); modGain.gain.value = baseFreq * (4 + Math.random() * 8);
+        modulator.connect(modGain); modGain.connect(carrier.frequency);
+        const env = ctx.createGain(); env.gain.setValueAtTime(0, time); env.gain.linearRampToValueAtTime(0.5, time + 0.005); env.gain.exponentialRampToValueAtTime(0.001, time + 0.28);
+        carrier.connect(env); env.connect(master); env.connect(delay);
+        carrier.start(time); modulator.start(time); carrier.stop(time + 0.32); modulator.stop(time + 0.32);
+      }
+      function subPulse(time) {
+        const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(60, time); osc.frequency.exponentialRampToValueAtTime(35, time + 0.2);
+        const g = ctx.createGain(); g.gain.setValueAtTime(0.7, time); g.gain.exponentialRampToValueAtTime(0.001, time + 0.22);
+        osc.connect(g); g.connect(master); osc.start(time); osc.stop(time + 0.25);
+      }
+      const scale = [130.81, 155.56, 174.61, 196.00, 233.08, 261.63];
+      let stopped = false, timer = null;
+      function schedule() {
+        if (stopped) return;
+        const now = ctx.currentTime;
+        const hits = Math.floor(Math.random() * 3) + 1;
+        for (let i = 0; i < hits; i++) { const offset = Math.random() * 0.15; fmHit(now + offset, scale[Math.floor(Math.random() * scale.length)]); }
+        if (Math.random() < 0.4) subPulse(now);
+        timer = setTimeout(schedule, 220 + Math.random() * 380);
+      }
+      schedule();
+      return { stop() { stopped = true; clearTimeout(timer); master.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.2); setTimeout(() => { try { master.disconnect(); } catch(e){} }, 300); } };
+    }
+
+    function capsuleEco(ctx) {
+      const master = ctx.createGain(); master.gain.value = 0.13; master.connect(ctx.destination);
+      const delay = ctx.createDelay(4.0); delay.delayTime.value = 1.35;
+      const fb = ctx.createGain(); fb.gain.value = 0.72;
+      const damp = ctx.createBiquadFilter(); damp.type = 'lowpass'; damp.frequency.value = 2200;
+      delay.connect(damp); damp.connect(fb); fb.connect(delay); delay.connect(master);
+      const inputFilter = ctx.createBiquadFilter(); inputFilter.type = 'bandpass'; inputFilter.frequency.value = 800; inputFilter.Q.value = 1.5;
+      inputFilter.connect(delay); inputFilter.connect(master);
+      const oscs = [];
+      [164.81, 220, 277.18, 329.63].forEach((f, idx) => {
+        const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = f;
+        const g = ctx.createGain(); g.gain.value = 0.15;
+        const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 0.05 + idx * 0.03;
+        const lfoG = ctx.createGain(); lfoG.gain.value = 0.1; lfo.connect(lfoG); lfoG.connect(g.gain); lfo.start();
+        osc.connect(g); g.connect(inputFilter); osc.start(); oscs.push({ osc, lfo });
+      });
+      let stopped = false;
+      const warble = setInterval(() => {
+        if (stopped) return;
+        oscs.forEach(({ osc }) => { if (Math.random() < 0.4) { osc.frequency.linearRampToValueAtTime(osc.frequency.value * (Math.random() < 0.5 ? 1.5 : 0.66), ctx.currentTime + 0.8); } });
+      }, 3500);
+      return { stop() { stopped = true; clearInterval(warble); master.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.5); setTimeout(() => { oscs.forEach(({ osc, lfo }) => { try { osc.stop(); } catch(e){} try { lfo.stop(); } catch(e){} }); try { master.disconnect(); } catch(e){} }, 1600); } };
+    }
+
+    document.querySelectorAll('.audio-card').forEach(card => {
+      const capsuleId = card.dataset.capsule;
+      card.querySelector('.play-btn').addEventListener('click', () => { AudioCapsules.toggle(capsuleId, card); });
     });
+
+    const originalNavegar = window.navegar;
+    window.navegar = function(pageId) {
+      if (pageId !== 'audio') {
+        Object.keys(AudioCapsules.playing).forEach(id => {
+          AudioCapsules.stop(id);
+          const card = document.querySelector(`.audio-card[data-capsule="${id}"]`);
+          if (card) {
+            card.classList.remove('playing');
+            const icon = card.querySelector('.play-icon');
+            if (icon) icon.className = 'fas fa-play play-icon';
+          }
+        });
+      }
+      originalNavegar(pageId);
+    };
   </script>
+</body>
+</html>
 </body>
 </html>
