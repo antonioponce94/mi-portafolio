@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Antonio Ponce</title>
   
-  <!-- FUENTES: Syne (Vanguardista y Bold) e Inter (Limpia y ligera) -->
+  <!-- FUENTES -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
   
+  <!-- ICONOS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
   
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,24 +39,15 @@
       border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
-    /* Nombre con Syne (Ajustado a un tamaño más equilibrado) */
+    /* Nombre estático, sin typewriter */
     .name {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: 1.4rem; /* Tamaño reducido */
+      font-size: 1.4rem;
       letter-spacing: -0.04em;
       margin: 0;
       cursor: pointer;
     }
-
-    .typewriter-cursor {
-      display: inline-block;
-      width: 3px;
-      background-color: #ffaa33;
-      animation: blink 0.7s step-end infinite;
-      margin-left: 3px;
-    }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
     .header nav { display: flex; gap: 1.2rem; }
     .nav-icon {
@@ -243,7 +234,7 @@
       pointer-events: auto;
       max-width: 800px;
       margin: 0 auto 2rem;
-      background: rgba(15, 15, 15, 0.25);
+      background: rgba(15, 15, 15, 0.4);
       backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
       padding: 2rem 2.5rem;
       color: #fff;
@@ -278,7 +269,7 @@
       letter-spacing: -0.02em;
     }
 
-    /* TEXTO DE PÁRRAFO (PESO LIGERO, MÁS PEQUEÑO) */
+    /* TEXTO DE PÁRRAFO */
     .page p, .page li {
       font-size: 0.95rem; 
       font-weight: 300;
@@ -357,8 +348,6 @@
     
     .audio-hint { font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-top: 1.5rem; font-style: italic; }
 
-    #p5-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-
     /* FOOTER MINIMALISTA */
     .footer {
       position: relative; z-index: 100; background: #000; color: #fff;
@@ -377,19 +366,23 @@
        OPTIMIZACIÓN EXTREMA PARA CELULARES 
        ========================================= */
     @media (max-width: 768px) {
+      /* Header más compacto */
       .header { padding: 0.8rem 1rem; flex-direction: column; gap: 0.8rem; }
-      
-      /* Nombre más pequeño en celular para jugar mejor con los iconos */
       .name { font-size: 1.2rem; } 
-      
       .header nav { gap: 1.2rem; }
       .nav-icon { font-size: 1.2rem; }
       
-      /* 1. Arreglo visual de autos en celular */
-      .wrapper9 .figura, .wrapper10 .figura, .wrapper11 .figura { width: 100px; height: 50px; }
-      .auto-base { transform: scale(0.4); transform-origin: top left; }
+      /* 1. Autos transformados en formas abstractas simples en celular */
+      .wrapper9 .figura, .wrapper10 .figura, .wrapper11 .figura { width: 120px; height: 60px; }
+      .auto-base { width: 120px; height: 60px; }
+      /* Ocultamos ruedas y ventanas para que no se deformen */
+      .rueda, .ventana { display: none !important; }
+      /* El bloque de color se convierte en el auto abstracto */
+      .carroceria { 
+        width: 100px; height: 40px; top: 10px; left: 10px; border-radius: 20px; 
+      }
       
-      /* Ajustar sus posiciones para que no se salgan de la pantalla */
+      /* Ajustar posiciones para que no se salgan */
       .wrapper9 { left: 10%; top: 15%; }
       .wrapper10 { left: 60%; top: 75%; }
       .wrapper11 { left: 20%; top: 85%; }
@@ -399,18 +392,21 @@
       .wrapper3 .figura { width: 30vmin; height: 30vmin; }
       .wrapper6 .figura { width: 40vmin; height: 40vmin; }
       
-      /* 3. Ocultar figuras que consumen muchos recursos para que el celular no vaya lento */
+      /* 3. Ocultar figuras que consumen muchos recursos en móvil */
       .wrapper5, .wrapper7 { display: none !important; }
       
-      /* 4. Quitar sombras y filtros pesados en móvil para mejor rendimiento */
+      /* 4. Quitar sombras, blurs y efectos pesados para que vuele en celular */
+      .page { 
+        background: rgba(15, 15, 15, 0.8); /* Fondo más sólido para mejor lectura */
+        backdrop-filter: none; -webkit-backdrop-filter: none; 
+        max-width: 92%; padding: 1.5rem 1.2rem; margin: 1rem auto; 
+      }
       .cuadrado-giro, .mancha, .triangulo, .rect-estable, .auto-base .carroceria, .poligono { 
         box-shadow: none !important; 
-        filter: blur(10px) !important;
+        filter: none !important; /* Eliminar blur */
       }
-      .triangulo, .cuadrado-giro { filter: none !important; }
       
       /* 5. Páginas ajustadas */
-      .page { max-width: 92%; padding: 1.5rem 1.2rem; margin: 1rem auto; }
       .page h2 { font-size: 1.5rem; }
       .page h3 { font-size: 1.1rem; }
       .page p, .page li { font-size: 0.95rem; }
@@ -423,10 +419,11 @@
   </style>
 </head>
 <body>
-  <div id="p5-background"></div>
-
+  
+  <!-- HEADER -->
   <header class="header">
-    <h1 class="name" id="name-typewriter"></h1>
+    <!-- Nombre estático, sin typewriter -->
+    <h1 class="name">Antonio Ponce</h1>
     <nav>
       <i class="fas fa-home nav-icon" onclick="navegar('inicio')" title="Inicio"></i>
       <i class="fas fa-user nav-icon" onclick="navegar('biografia')" title="Biografía"></i>
@@ -436,6 +433,7 @@
     </nav>
   </header>
 
+  <!-- FIGURAS Y AUTOS -->
   <div class="figures-container">
     <div class="scroll-wrapper wrapper1"><div class="figura cuadrado-giro"></div></div>
     <div class="scroll-wrapper wrapper2"><div class="figura linea-onda"></div></div>
@@ -451,6 +449,7 @@
     <div class="scroll-wrapper wrapper11"><div class="figura auto-base auto-verde"><div class="carroceria"></div><div class="rueda rueda-izq"></div><div class="rueda rueda-der"></div><div class="ventana"></div></div></div>
   </div>
 
+  <!-- PÁGINAS -->
   <div class="page-container" id="pageContainer">
     <!-- BIOGRAFIA -->
     <div class="page" id="page-biografia">
@@ -605,31 +604,13 @@
     </div>
   </div>
 
-  <!-- FOOTER SOLO CON LA FECHA -->
+  <!-- FOOTER -->
   <footer class="footer">
     <p>© 2026</p>
   </footer>
 
   <script>
-    // TYPEWRITER
-    const nameElement = document.getElementById('name-typewriter');
-    const fullName = "Antonio Ponce";
-    let i = 0;
-    function typeWriter() {
-      if (i < fullName.length) {
-        nameElement.innerHTML += fullName.charAt(i);
-        i++;
-        setTimeout(typeWriter, 100);
-      } else {
-        const cursorSpan = document.createElement('span');
-        cursorSpan.classList.add('typewriter-cursor');
-        cursorSpan.innerHTML = '|';
-        nameElement.appendChild(cursorSpan);
-      }
-    }
-    typeWriter();
-
-    // NAVEGACIÓN Y SCROLL
+    // NAVEGACIÓN Y SCROLL (Sin p5.js, solo CSS transforms)
     (function() {
       const wrappers = document.querySelectorAll('.scroll-wrapper');
       const totalWrappers = wrappers.length;
@@ -681,55 +662,6 @@
       window.addEventListener('popstate', handleHash);
       handleHash();
     })();
-
-    // FONDO p5.js
-    let bgSketch = function(p) {
-      let circlePositionX, circlePositionY;
-      let circleSpeedX = 2.2, circleSpeedY = 2.8;
-      let circleRadius = 40, circleHue = 0;
-
-      p.setup = function() {
-        let canvas = p.createCanvas(p.windowWidth, p.windowHeight);
-        canvas.parent('p5-background');
-        canvas.style('pointer-events', 'none');
-        p.ellipseMode(p.RADIUS);
-        p.colorMode(p.HSB);
-        circlePositionX = p.width / 2;
-        circlePositionY = p.height / 2;
-        p.background(0, 0, 0, 0);
-      };
-
-      p.draw = function() {
-        p.background(0, 0, 0, 3);
-        p.noFill();
-        p.stroke(circleHue, 255, 255);
-        p.strokeWeight(3);
-        p.drawingContext.shadowBlur = 60;
-        p.drawingContext.shadowColor = `hsla(${circleHue}, 100%, 70%, 0.9)`;
-        p.circle(circlePositionX, circlePositionY, circleRadius);
-        p.drawingContext.shadowBlur = 0;
-
-        if (p.mouseIsPressed || p.touches.length > 0) {
-          circlePositionX += circleSpeedX;
-          circlePositionY += circleSpeedY;
-          circleHue = (circleHue + 3) % 360;
-        }
-
-        if (circlePositionX < circleRadius || circlePositionX > p.width - circleRadius) {
-          circleSpeedX *= -1;
-        }
-        if (circlePositionY < circleRadius || circlePositionY > p.height - circleRadius) {
-          circleSpeedY *= -1;
-        }
-      };
-
-      p.windowResized = function() {
-        p.resizeCanvas(p.windowWidth, p.windowHeight);
-        circlePositionX = p.constrain(circlePositionX, circleRadius, p.width - circleRadius);
-        circlePositionY = p.constrain(circlePositionY, circleRadius, p.height - circleRadius);
-      };
-    };
-    new p5(bgSketch);
 
     // AUDIO EXPERIMENTAL
     const AudioCapsules = {
