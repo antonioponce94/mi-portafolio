@@ -3,12 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portafolio abstracto</title>
+  <title>Antonio Ponce</title>
+  
+  <!-- FUENTES: Syne (Vanguardista y Bold) e Inter (Limpia y ligera) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -17,7 +21,7 @@
       font-family: 'Inter', sans-serif;
       color: #eee;
       overflow-x: hidden;
-      line-height: 1.4; /* Texto más pegado */
+      line-height: 1.4;
     }
 
     /* HEADER */
@@ -35,28 +39,29 @@
       border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
+    /* Nombre con Syne (Ajustado a un tamaño más equilibrado) */
     .name {
-      font-family: 'Space Grotesk', 'Inter', sans-serif;
-      font-weight: 400;
-      font-size: 1.8rem;
-      letter-spacing: -0.04em; /* Letras más pegadas */
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem; /* Tamaño reducido */
+      letter-spacing: -0.04em;
       margin: 0;
       cursor: pointer;
     }
 
     .typewriter-cursor {
       display: inline-block;
-      width: 2px;
+      width: 3px;
       background-color: #ffaa33;
       animation: blink 0.7s step-end infinite;
-      margin-left: 2px;
+      margin-left: 3px;
     }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
     .header nav { display: flex; gap: 1.2rem; }
     .nav-icon {
       color: rgba(255,255,255,0.8);
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       transition: color 0.3s, transform 0.3s;
       cursor: pointer;
     }
@@ -158,11 +163,8 @@
       border: 1px solid rgba(255,255,255,0.5);
     }
 
-    /* Auto Izquierda: ROJO */
     .auto-rojo .carroceria { background: linear-gradient(145deg, #ff4d4d, #cc0000); color: #ff4d4d; }
-    /* Auto Derecha: NARANJA */
     .auto-naranja .carroceria { background: linear-gradient(145deg, #ffaa33, #ff5500); color: #ffaa33; }
-    /* Auto Abajo: VERDE */
     .auto-verde .carroceria { background: linear-gradient(145deg, #66ff66, #009900); color: #66ff66; }
 
     .rueda-izq { left: 50px; } .rueda-der { left: 160px; }
@@ -209,9 +211,9 @@
     .wrapper5 { left: 45%; top: 20%; }
     .wrapper6 { left: 10%; top: 50%; }
     .wrapper7 { left: 70%; top: 15%; }
-    .wrapper9 { left: 15%; top: 25%; } /* Rojo */
-    .wrapper10 { left: 70%; top: 60%; } /* Naranja */
-    .wrapper11 { left: 40%; top: 75%; } /* Verde */
+    .wrapper9 { left: 15%; top: 25%; }
+    .wrapper10 { left: 70%; top: 60%; }
+    .wrapper11 { left: 40%; top: 75%; }
 
     /* TAMAÑOS */
     .wrapper1 .figura { width: 35vmin; height: 35vmin; }
@@ -255,24 +257,35 @@
 
     .page.active { display: block; opacity: 1; transform: translateY(0); }
 
+    /* ENCABEZADOS CON SYNE (BOLD Y VANGUARDISTA) */
     .page h2 {
-      font-family: 'Space Grotesk', 'Inter', sans-serif;
-      font-weight: 400; font-size: 2rem; margin-bottom: 1.5rem;
-      letter-spacing: -0.02em; text-transform: uppercase;
-      border-bottom: 1px solid rgba(255, 200, 100, 0.2); padding-bottom: 0.75rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; 
+      font-size: 1.8rem; 
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em; 
+      text-transform: none;
+      border-bottom: 1px solid rgba(255, 200, 100, 0.2); 
+      padding-bottom: 0.75rem;
     }
 
     .page h3 {
-      font-family: 'Space Grotesk', 'Inter', sans-serif;
-      font-size: 1.3rem; margin: 1.5rem 0 0.8rem;
-      color: #ffcc88; font-weight: 500; letter-spacing: -0.02em;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.15rem; 
+      margin: 1.5rem 0 0.8rem;
+      color: #ffcc88; 
+      font-weight: 700; 
+      letter-spacing: -0.02em;
     }
 
+    /* TEXTO DE PÁRRAFO (PESO LIGERO, MÁS PEQUEÑO) */
     .page p, .page li {
-      font-size: 1.05rem; font-weight: 300;
-      line-height: 1.4; /* Texto más pegado */
-      letter-spacing: -0.01em; /* Letras más pegadas */
-      margin-bottom: 0.6rem; color: rgba(255, 255, 255, 0.9);
+      font-size: 0.95rem; 
+      font-weight: 300;
+      line-height: 1.5;
+      letter-spacing: 0;
+      margin-bottom: 0.6rem; 
+      color: rgba(255, 255, 255, 0.85);
     }
 
     .page ul { list-style: none; padding-left: 1rem; }
@@ -281,18 +294,26 @@
     /* BLOG */
     .blog-entry { margin-bottom: 2.5rem; padding-bottom: 1.8rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
     .blog-entry:last-child { border-bottom: none; }
-    .blog-entry h3 { margin-top: 0; color: #ffaa66; }
+    
+    .blog-entry h3 { 
+      font-family: 'Syne', sans-serif; 
+      margin-top: 0; 
+      color: #ffaa66; 
+      font-weight: 700;
+    }
+    
     .blog-entry .fecha {
-      font-size: 0.85rem; color: rgba(255,255,255,0.5);
-      letter-spacing: 0.02em; margin-bottom: 0.5rem; display: block;
+      font-size: 0.75rem; color: rgba(255,255,255,0.5);
+      letter-spacing: 0.05em; margin-bottom: 0.5rem; display: block;
+      text-transform: uppercase;
     }
     .blog-entry .quote {
       font-style: italic; color: rgba(255, 255, 255, 0.75);
       border-left: 2px solid #ffaa33; padding-left: 1rem;
-      margin: 0.9rem 0; font-size: 1.05rem; line-height: 1.4;
+      margin: 0.9rem 0; font-size: 0.95rem; line-height: 1.5;
     }
     .blog-entry .author {
-      display: block; font-style: normal; font-size: 0.85rem;
+      display: block; font-style: normal; font-size: 0.8rem;
       color: rgba(255,170,102,0.85); letter-spacing: 0.02em; margin-top: 0.35rem;
     }
 
@@ -305,16 +326,25 @@
     .audio-card.playing { border-color: #ffaa33; box-shadow: 0 0 24px rgba(255,170,51,0.25); }
     .audio-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.4rem; }
     .play-btn {
-      width: 44px; height: 44px; border-radius: 50%; border: 1px solid #ffaa33;
-      background: transparent; color: #ffaa33; font-size: 1rem; cursor: pointer;
+      width: 40px; height: 40px; border-radius: 50%; border: 1px solid #ffaa33;
+      background: transparent; color: #ffaa33; font-size: 0.9rem; cursor: pointer;
       transition: all 0.3s; display: flex; align-items: center; justify-content: center;
       flex-shrink: 0; font-family: inherit;
     }
     .play-btn:hover { background: rgba(255,170,51,0.15); }
     .audio-card.playing .play-btn { background: #ffaa33; color: #000; }
-    .audio-header h3 { margin: 0; color: #fff; font-size: 1.15rem; }
-    .audio-card p { margin: 0.4rem 0 0; font-size: 0.95rem; color: rgba(255,255,255,0.75); line-height: 1.3; }
-    .visualizer { display: flex; gap: 4px; align-items: flex-end; height: 28px; margin-top: 0.9rem; }
+    
+    .audio-header h3 { 
+      margin: 0; 
+      color: #fff; 
+      font-size: 1.1rem; 
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+    }
+    
+    .audio-card p { margin: 0.4rem 0 0; font-size: 0.85rem; color: rgba(255,255,255,0.75); line-height: 1.4; }
+    
+    .visualizer { display: flex; gap: 4px; align-items: flex-end; height: 24px; margin-top: 0.9rem; }
     .visualizer span { width: 4px; height: 4px; background: #ffaa33; opacity: 0.25; transition: all 0.2s; }
     .audio-card.playing .visualizer span { animation: barPulse 0.7s infinite alternate ease-in-out; opacity: 1; }
     .audio-card.playing .visualizer span:nth-child(2) { animation-delay: 0.12s; animation-duration: 0.5s; }
@@ -323,29 +353,24 @@
     .audio-card.playing .visualizer span:nth-child(5) { animation-delay: 0.30s; animation-duration: 0.75s; }
     .audio-card.playing .visualizer span:nth-child(6) { animation-delay: 0.08s; animation-duration: 0.65s; }
     .audio-card.playing .visualizer span:nth-child(7) { animation-delay: 0.22s; animation-duration: 0.55s; }
-    @keyframes barPulse { 0% { height: 4px; opacity: 0.4; } 100% { height: 28px; opacity: 1; } }
+    @keyframes barPulse { 0% { height: 4px; opacity: 0.4; } 100% { height: 24px; opacity: 1; } }
+    
     .audio-hint { font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-top: 1.5rem; font-style: italic; }
-
-    .media-links {
-      margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.2);
-      display: flex; gap: 1.5rem; flex-wrap: wrap;
-    }
-    .media-links a { color: #ffaa66; text-decoration: none; border-bottom: 1px dotted #ffaa66; transition: 0.3s; }
-    .media-links a:hover { color: #fff; border-bottom-color: #fff; }
 
     #p5-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 
-    /* FOOTER MINIMALISTA (Sin iconos de video) */
+    /* FOOTER MINIMALISTA */
     .footer {
       position: relative; z-index: 100; background: #000; color: #fff;
       padding: 1.5rem 1rem; display: flex; align-items: center; justify-content: center;
-      font-weight: 300; border-top: 1px solid rgba(255,255,255,0.2);
+      font-weight: 300; border-top: 1px solid rgba(255,255,255,0.1);
       text-align: center;
     }
     .footer p {
-      font-size: 0.8rem;
-      letter-spacing: 0.05em;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
       margin: 0;
+      color: rgba(255,255,255,0.6);
     }
 
     /* =========================================
@@ -353,31 +378,45 @@
        ========================================= */
     @media (max-width: 768px) {
       .header { padding: 0.8rem 1rem; flex-direction: column; gap: 0.8rem; }
-      .name { font-size: 1.5rem; }
+      
+      /* Nombre más pequeño en celular para jugar mejor con los iconos */
+      .name { font-size: 1.2rem; } 
+      
       .header nav { gap: 1.2rem; }
-      .nav-icon { font-size: 1.3rem; }
+      .nav-icon { font-size: 1.2rem; }
       
-      /* Autos más pequeños en celular */
-      .wrapper9 .figura, .wrapper10 .figura, .wrapper11 .figura { width: 160px; height: 80px; }
-      .auto-base { transform: scale(0.65); }
-      .carroceria { top: 20px; left: 20px; }
+      /* 1. Arreglo visual de autos en celular */
+      .wrapper9 .figura, .wrapper10 .figura, .wrapper11 .figura { width: 100px; height: 50px; }
+      .auto-base { transform: scale(0.4); transform-origin: top left; }
       
-      /* Figuras geométricas ajustadas */
+      /* Ajustar sus posiciones para que no se salgan de la pantalla */
+      .wrapper9 { left: 10%; top: 15%; }
+      .wrapper10 { left: 60%; top: 75%; }
+      .wrapper11 { left: 20%; top: 85%; }
+      
+      /* 2. Figuras geométricas ajustadas */
       .wrapper1 .figura { width: 25vmin; height: 25vmin; }
       .wrapper3 .figura { width: 30vmin; height: 30vmin; }
       .wrapper6 .figura { width: 40vmin; height: 40vmin; }
       
-      /* Páginas con menos margen */
-      .page { max-width: 92%; padding: 1.5rem 1.2rem; margin: 1rem auto; }
-      .page h2 { font-size: 1.6rem; }
-      .page h3 { font-size: 1.2rem; }
-      .page p, .page li { font-size: 1rem; }
+      /* 3. Ocultar figuras que consumen muchos recursos para que el celular no vaya lento */
+      .wrapper5, .wrapper7 { display: none !important; }
       
-      /* Blog y audios ajustados */
+      /* 4. Quitar sombras y filtros pesados en móvil para mejor rendimiento */
+      .cuadrado-giro, .mancha, .triangulo, .rect-estable, .auto-base .carroceria, .poligono { 
+        box-shadow: none !important; 
+        filter: blur(10px) !important;
+      }
+      .triangulo, .cuadrado-giro { filter: none !important; }
+      
+      /* 5. Páginas ajustadas */
+      .page { max-width: 92%; padding: 1.5rem 1.2rem; margin: 1rem auto; }
+      .page h2 { font-size: 1.5rem; }
+      .page h3 { font-size: 1.1rem; }
+      .page p, .page li { font-size: 0.95rem; }
+      
       .blog-entry { margin-bottom: 1.5rem; padding-bottom: 1rem; }
       .audio-card { padding: 1rem; }
-      .audio-header h3 { font-size: 1rem; }
-      .play-btn { width: 36px; height: 36px; font-size: 0.9rem; }
       
       .footer { padding: 1rem; }
     }
@@ -386,7 +425,6 @@
 <body>
   <div id="p5-background"></div>
 
-  <!-- HEADER -->
   <header class="header">
     <h1 class="name" id="name-typewriter"></h1>
     <nav>
@@ -398,7 +436,6 @@
     </nav>
   </header>
 
-  <!-- FIGURAS Y AUTOS -->
   <div class="figures-container">
     <div class="scroll-wrapper wrapper1"><div class="figura cuadrado-giro"></div></div>
     <div class="scroll-wrapper wrapper2"><div class="figura linea-onda"></div></div>
@@ -414,13 +451,13 @@
     <div class="scroll-wrapper wrapper11"><div class="figura auto-base auto-verde"><div class="carroceria"></div><div class="rueda rueda-izq"></div><div class="rueda rueda-der"></div><div class="ventana"></div></div></div>
   </div>
 
-  <!-- PÁGINAS -->
   <div class="page-container" id="pageContainer">
     <!-- BIOGRAFIA -->
     <div class="page" id="page-biografia">
       <h2>Biografía</h2>
-      <p>Artista visual y programador creativo, mi trabajo explora la intersección entre la animación experimental y el arte generativo. Influenciado por la abstracción cinética de Norman McLaren y el modernismo mexicano de Fermín Revueltas, busco crear experiencias visuales donde la geometría cobra vida.</p>
-      <p>Esta página es un homenaje a ambos maestros, combinando movimiento, color y formas elementales en un lienzo digital en constante cambio.</p>
+      <p>Mi práctica se sitúa en la intersección del arte, la filosofía y la inteligencia artificial. Más que un homenaje a la animación tradicional, entiendo el código y la máquina como un espacio para pensar críticamente la nueva revolución industrial en la que estamos inmersos.</p>
+      <p>A través del arte generativo, los algoritmos y la experimentación sonora, busco explorar cómo estamos mutando en nuestra relación con la tecnología. La geometría y el movimiento no son solo herramientas estéticas, sino formas de cuestionar nuestra identidad digital, el ruido de la información y la poética del error.</p>
+      <p>No busco solo crear imágenes, sino desplegar un pensamiento crítico sobre el presente algorítmico. La máquina es un espejo filosófico: al programarla, nos programamos a nosotros mismos.</p>
     </div>
 
     <!-- CURRICULUM -->
@@ -568,9 +605,9 @@
     </div>
   </div>
 
-  <!-- FOOTER MINIMALISTA -->
+  <!-- FOOTER SOLO CON LA FECHA -->
   <footer class="footer">
-    <p>© 2026 · Portafolio experimental</p>
+    <p>© 2026</p>
   </footer>
 
   <script>
@@ -645,7 +682,7 @@
       handleHash();
     })();
 
-    // FONDO p5.js OPTIMIZADO PARA TÁCTIL
+    // FONDO p5.js
     let bgSketch = function(p) {
       let circlePositionX, circlePositionY;
       let circleSpeedX = 2.2, circleSpeedY = 2.8;
@@ -672,7 +709,6 @@
         p.circle(circlePositionX, circlePositionY, circleRadius);
         p.drawingContext.shadowBlur = 0;
 
-        // Funciona con mouse y con pantalla táctil
         if (p.mouseIsPressed || p.touches.length > 0) {
           circlePositionX += circleSpeedX;
           circlePositionY += circleSpeedY;
@@ -879,7 +915,5 @@
       originalNavegar(pageId);
     };
   </script>
-</body>
-</html>
 </body>
 </html>
