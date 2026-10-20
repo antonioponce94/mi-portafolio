@@ -51,10 +51,7 @@
       transition: opacity 0.3s ease;
     }
 
-    /* Clase que se activa vía JS cuando las fuentes están listas */
-    body.fonts-loaded .name {
-      opacity: 1;
-    }
+    body.fonts-loaded .name { opacity: 1; }
 
     .header nav { display: flex; gap: 1.2rem; }
     .nav-icon {
@@ -201,7 +198,7 @@
       100% { clip-path: polygon(30% 10%, 70% 10%, 90% 50%, 70% 90%, 30% 90%, 10% 50%); }
     }
 
-    /* POSICIONES */
+    /* POSICIONES ESCRITORIO */
     .wrapper1 { left: 5%; top: 10%; }
     .wrapper2 { left: 60%; top: 40%; }
     .wrapper3 { left: 80%; top: 70%; }
@@ -213,7 +210,7 @@
     .wrapper10 { left: 70%; top: 60%; }
     .wrapper11 { left: 40%; top: 75%; }
 
-    /* TAMAÑOS */
+    /* TAMAÑOS ESCRITORIO */
     .wrapper1 .figura { width: 35vmin; height: 35vmin; }
     .wrapper2 .figura { width: 45vmin; height: 8px; }
     .wrapper3 .figura { width: 40vmin; height: 40vmin; }
@@ -314,7 +311,7 @@
     .footer p { font-size: 0.75rem; letter-spacing: 0.1em; margin: 0; color: rgba(255,255,255,0.6); }
 
     /* =========================================
-       OPTIMIZACIÓN MÓVIL (Manteniendo detalles)
+       REDISEÑO MÓVIL EXPERIMENTAL (Sin carros)
        ========================================= */
     @media (max-width: 768px) {
       .header { padding: 0.8rem 1rem; flex-direction: column; gap: 0.6rem; }
@@ -322,30 +319,43 @@
       .header nav { gap: 1.2rem; }
       .nav-icon { font-size: 1.2rem; }
       
-      /* 1. Autos restaurados: Solo escalamos el contenedor, no ocultamos elementos */
-      .auto-base { transform: scale(0.55); transform-origin: center; }
-      /* Dejamos el wrapper en su tamaño original para no alterar las posiciones, solo se ve más chico el auto */
-      .wrapper9 .figura, .wrapper10 .figura, .wrapper11 .figura { width: 240px; height: 120px; }
+      /* 1. OCULTAR AUTOS Y FIGURAS SECUNDARIAS EN MÓVIL */
+      /* Los autos se pierden, mejor un fondo abstracto puro */
+      .wrapper9, .wrapper10, .wrapper11 { display: none !important; }
+      /* La línea de onda y el rectángulo estirable no aportan en vertical */
+      .wrapper2, .wrapper5 { display: none !important; }
       
-      /* 2. Figuras geométricas (Restaurando la azul/rosa) */
-      .wrapper1 .figura { width: 25vmin; height: 25vmin; }
-      .wrapper3 .figura { width: 30vmin; height: 30vmin; }
-      .wrapper6 .figura { width: 40vmin; height: 40vmin; }
-      /* Nos aseguramos de que se muestren */
-      .wrapper5, .wrapper7 { display: block !important; }
+      /* 2. FIGURAS GEOMÉTRICAS GIGANTES */
+      .wrapper1 { left: -15%; top: 5%; }
+      .wrapper1 .figura { width: 70vmin; height: 70vmin; opacity: 0.6; }
       
-      /* 3. Quitar efectos pesados (blur) para que el celular no vaya lento */
+      .wrapper3 { left: 40%; top: 35%; }
+      .wrapper3 .figura { width: 80vmin; height: 80vmin; opacity: 0.4; }
+      
+      .wrapper6 { left: -30%; top: 65%; }
+      .wrapper6 .figura { width: 100vmin; height: 100vmin; }
+      
+      .wrapper7 { left: 10%; top: 85%; }
+      .wrapper7 .figura { width: 80vmin; height: 80vmin; }
+      
+      .wrapper4 { left: 60%; top: 15%; }
+      .wrapper4 .triangulo { border-left-width: 25vmin; border-right-width: 25vmin; border-bottom-width: 45vmin; }
+      
+      /* 3. PÁGINAS CON FONDO SÓLIDO PARA LEER BIEN */
       .page { 
-        background: rgba(15, 15, 15, 0.85); /* Fondo más sólido */
+        background: rgba(10, 10, 12, 0.92); /* Casi opaco para que resalte el texto */
         backdrop-filter: none; -webkit-backdrop-filter: none; 
         max-width: 92%; padding: 1.5rem 1.2rem; margin: 1rem auto; 
+        border: none; 
       }
-      .cuadrado-giro, .mancha, .rect-estable, .auto-base .carroceria, .poligono { 
+      
+      /* 4. RENDIMIENTO: Quitar sombras y blurs pesados */
+      .cuadrado-giro, .mancha, .poligono, .circulo-pulso { 
         box-shadow: none !important; 
         filter: none !important; 
       }
       
-      /* 4. Páginas ajustadas */
+      /* 5. Tipografía ajustada */
       .page h2 { font-size: 1.5rem; }
       .page h3 { font-size: 1.1rem; }
       .page p, .page li { font-size: 0.95rem; }
@@ -380,7 +390,7 @@
     <div class="scroll-wrapper wrapper6"><div class="figura mancha"></div></div>
     <div class="scroll-wrapper wrapper7"><div class="figura poligono"></div></div>
     
-    <!-- Autos -->
+    <!-- Autos (Se ocultan en móvil vía CSS) -->
     <div class="scroll-wrapper wrapper9"><div class="figura auto-base auto-rojo"><div class="carroceria"></div><div class="rueda rueda-izq"></div><div class="rueda rueda-der"></div><div class="ventana"></div></div></div>
     <div class="scroll-wrapper wrapper10"><div class="figura auto-base auto-naranja"><div class="carroceria"></div><div class="rueda rueda-izq"></div><div class="rueda rueda-der"></div><div class="ventana"></div></div></div>
     <div class="scroll-wrapper wrapper11"><div class="figura auto-base auto-verde"><div class="carroceria"></div><div class="rueda rueda-izq"></div><div class="rueda rueda-der"></div><div class="ventana"></div></div></div>
@@ -548,13 +558,11 @@
 
   <script>
     // 1. SOLUCIÓN AL SALTO DE FUENTE (FOUT)
-    // Espera a que todas las fuentes estén listas antes de mostrar el nombre
     if (document.fonts) {
       document.fonts.ready.then(function() {
         document.body.classList.add('fonts-loaded');
       });
     } else {
-      // Fallback por si el navegador es muy viejo
       setTimeout(() => document.body.classList.add('fonts-loaded'), 1000);
     }
 
